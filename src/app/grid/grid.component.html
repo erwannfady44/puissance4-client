@@ -2,14 +2,17 @@
   <table>
     <tr>
       <th *ngFor='let in of counter(7) ;let i = index'>
-        <app-pawn [header]="true" [pawn]="createHeaderPawn(i)" [color]="game.player0 === user.id ? 'red' : 'yellow'"></app-pawn>
+        <app-pawn [header]="true" [pawn]="createHeaderPawn(i)" [color]="game.player0 === user.id ? 'red' : 'yellow'"
+                  (mouseenter)="onMouseEvent(i)" (mouseleave)="onMouseEvent(-1)"
+                  (click)="sendPawn()"></app-pawn>
       </th>
     </tr>
   </table>
   <table id="grid">
     <tr *ngFor='let in of counter(6) ;let i = index'>
-      <td *ngFor='let in of counter(7) ;let j = index' (mouseenter) ="onMouseEvent(j)"  (mouseleave) ="onMouseEvent(-1)">
-        <app-pawn [pawn]="this.game.grid && this.game.grid[i][j] ? this.game.grid[i][j] : this.nullPawn" [column]="j"></app-pawn>
+      <td *ngFor='let in of counter(7) ;let j = index' (mouseenter)="onMouseEvent(j)" (mouseleave)="onMouseEvent(-1)"
+          (click)="sendPawn()">
+        <app-pawn [pawn]="this.game.grid && this.game.grid[i][j] ? this.game.grid[i][j] : this.nullPawn"></app-pawn>
       </td>
     </tr>
   </table>

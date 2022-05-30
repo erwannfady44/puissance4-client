@@ -2,18 +2,19 @@ import {Injectable} from '@angular/core';
 
 @Injectable({providedIn: 'root'})
 export class PawnModel  {
-  private _color!: number;
+  private _color!: string;
   private _column!: number;
   private _row!: number;
+  private _player!:number;
 
   constructor() {
   }
 
-  get color(): number {
+  get color(): string {
     return this._color;
   }
 
-  set color(value: number) {
+  set color(value: string) {
     this._color = value;
   }
 
@@ -31,6 +32,15 @@ export class PawnModel  {
 
   set row(value: number) {
     this._row = value;
+  }
+
+
+  get player(): number {
+    return this._player;
+  }
+
+  set player(value: number) {
+    this._player = value;
   }
 }
 

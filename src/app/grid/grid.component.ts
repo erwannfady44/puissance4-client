@@ -37,4 +37,17 @@ export class GridComponent implements OnInit {
   onMouseEvent(column: number) {
     this.gameService.setSelectedColumn(column);
   }
+
+  sendPawn() {
+    //Si c'est notre tours
+    if (this.gameService.game.player0 === this.userService.user.id) {
+      if (this.gameService.game.currentPlayer === 0) {
+        this.gameService.sendPawn();
+      }
+    } else {
+      if (this.gameService.game.currentPlayer === 1) {
+        this.gameService.sendPawn();
+      }
+    }
+  }
 }

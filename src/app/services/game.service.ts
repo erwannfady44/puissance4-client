@@ -6,6 +6,7 @@ import {UserModel} from "../models/User.model";
 import {GameModel} from "../models/Game.model";
 import {WebSocketService} from "./web-socket.service";
 import {BehaviorSubject, Observable} from "rxjs";
+import {PawnModel} from "../models/Pawn.model";
 
 @Injectable({
   providedIn: 'root'
@@ -37,10 +38,11 @@ export class GameService {
         },
       })
         .then((res: any) => {
-          this.game.player0 = res.data.player0;
-          this.game.player0Connected = res.data.player0Connected;
-          this.game.currentPlayer = res.data.currentPlayer;
-          this.game.id = res.data._id;
+          this._game = new GameModel();
+          this._game.player0 = res.data.player0;
+          this._game.player0Connected = res.data.player0Connected;
+          this._game.currentPlayer = res.data.currentPlayer;
+          this._game.id = res.data._id;
           sessionStorage.setItem('game', JSON.stringify(this.game))
           this.connect(user.id, user.token);
           resolve()
@@ -58,12 +60,12 @@ export class GameService {
         },
       })
         .then((res: any) => {
-          this.game.player0 = res.data.player0;
-          this.game.player1 = res.data.player1;
-          this.game.player0Connected = res.data.player0Connected;
-          this.game.player1Connected = true;
-          this.game.currentPlayer = res.data.currentPlayer;
-          this.game.id = idGame;
+          this._game.player0 = res.data.player0;
+          this._game.player1 = res.data.player1;
+          this._game.player0Connected = res.data.player0Connected;
+          this._game.player1Connected = true;
+          this._game.currentPlayer = res.data.currentPlayer;
+          this._game.id = idGame;
           sessionStorage.setItem('game', JSON.stringify(this.game))
           this.connect(user.id, user.token);
           resolve()
@@ -71,15 +73,18 @@ export class GameService {
     });
   }
 
+  sendPawn() {
+    this.ws.send({column: this.selectedColumn.getValue()})
+  }
+
   get game(): GameModel {
     return this._game;
   }
 
   connect(idUser: string, token: string) {
-    console.log(idUser);
     return this.ws.connect(this.game.id, idUser, token).subscribe({
       next: res => {
-        this.dataReceived(res.data)
+        this.dataReceived(JSON.parse(res.data))
       }, error: err => {
         console.log(err.data)
       }, complete() {
@@ -89,8 +94,19 @@ export class GameService {
 
   }
 
-  private dataReceived(res: any) {
-    console.log(res);
+  private dataReceived(data: any) {
+    if (data.state) {
+
+    } else if (data.newPawn) {
+      console.log(data.newPawn);
+      const newPawn = new PawnModel();
+      newPawn.column = data.newPawn.column;
+      newPawn.row = data.newPawn.row;
+      newPawn.color = data.newPawn.color;
+      this.game.grid[newPawn.row][newPawn.column] = newPawn;
+      this.game.currentPlayer = (this.game.currentPlayer + 1) % 2;
+      console.log(this.game.grid);
+    }
   }
 
   loadData(user: UserModel) {

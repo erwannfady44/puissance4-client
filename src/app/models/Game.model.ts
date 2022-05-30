@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {PawnModel} from "./Pawn.model";
+import {NullPawnModel, PawnModel} from "./Pawn.model";
 
 @Injectable({providedIn: 'root'})
 export class GameModel {
@@ -9,9 +9,15 @@ export class GameModel {
   private _player1!: string;
   private _player1Connected: boolean = false;
   private _currentPlayer!: number;
-  private _grid!: Array<Array<PawnModel>>
+  private _grid: Array<Array<PawnModel>> = new Array<Array<PawnModel>>()
 
   constructor() {
+    for (let i = 0; i < 6; i++) {
+      this._grid.push([]);
+      for (let j = 0; j < 7; j++) {
+        this._grid[i].push(new NullPawnModel());
+      }
+    }
   }
 
   public addPawn(pawn: PawnModel) {

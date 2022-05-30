@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {PawnModel} from "../models/Pawn.model";
+import {NullPawnModel, PawnModel} from "../models/Pawn.model";
 import {GameService} from "../services/game.service";
 
 @Component({
@@ -29,13 +29,10 @@ export class PawnComponent implements OnInit {
     if (this.header)
       return this.pawn.column == this.selectedColumn ? this.color : 'white';
     else {
-      if (this.pawn.color) {
-        if (this.pawn.color == 0)
-          return "red";
-        else
-          return "yellow";
-      } else
+      if (this.pawn instanceof NullPawnModel)
         return "white";
+      else
+        return this.pawn.color;
     }
   }
 }
