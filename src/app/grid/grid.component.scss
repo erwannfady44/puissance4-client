@@ -1,0 +1,20 @@
+table {
+  border-collapse: collapse;
+}
+
+#grid
+{
+  background-color: #0025e1;
+}
+td/* Mettre une bordure sur les td ET les th */
+{
+  border: 10px solid #0025e1;
+  border-radius: 50%;
+}
+
+th /* Mettre une bordure sur les td ET les th */
+{
+  border: 11.5px solid white;
+  border-bottom: 0;
+  border-radius: 50%;
+}

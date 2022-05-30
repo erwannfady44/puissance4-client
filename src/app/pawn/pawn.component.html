@@ -1,0 +1,6 @@
+<div class="pawnContainerHeader" *ngIf="header">
+  <div [class]="'pawn '+getColor()"></div>
+</div>
+<div class="pawnContainer" *ngIf="!header" >
+  <div [class]="'pawn '+ getColor()"></div>
+</div>

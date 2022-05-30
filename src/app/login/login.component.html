@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="form">
+    <form class="example-form" [formGroup]="form">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Pseudo</mat-label>
+        <input type="text" matInput  formControlName="pseudo" autocomplete="doNotAutoComplete">
+        <mat-error *ngIf="form.get('pseudo')!.hasError('required')">
+          Le pseudo est <strong>requis</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Mot de passe</mat-label>
+        <input type="password" matInput formControlName="mdp" autocomplete="doNotAutoComplete">
+        <mat-error *ngIf="form.get('mdp')!.hasError('required')">
+          Le mot de passe est <strong>requis</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <p><button mat-raised-button color="primary" type="submit" (click)="onSubmit()" [disabled]="form.invalid">Connexion</button></p>
+      <p><button mat-raised-button color="basic" [routerLink]="['/signup']">Pas inscrit ? S'inscrire</button></p>
+
+    </form>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Rejoindre une partie</h1>
+<form [formGroup]="form">
+<div mat-dialog-content>
+  <p>Entrer l'identifiant de la partie</p>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Identifiant de la partie</mat-label>
+    <input matInput formControlName="idGame">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [disabled]="form.invalid" [mat-dialog-close]="form" cdkFocusInitial>Rejoindre</button>
+  <button mat-button (click)="onCancel()">Annuler</button>
+</div>
+</form>

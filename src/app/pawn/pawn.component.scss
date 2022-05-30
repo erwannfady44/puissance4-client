@@ -1,0 +1,31 @@
+.pawnContainer{
+  height: 50px;
+  width: 50px;
+  background-color: #0025e1;
+  border: 1px solid #0025e1;
+}
+
+.pawnContainerHeader{
+  height: 50px;
+  width: 50px;
+  background-color: white;
+}
+
+
+.pawn {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.white {
+  background-color: white;
+}
+
+.red {
+  background-color: red;
+}
+
+.yellow {
+  background-color: #fee856;
+}
