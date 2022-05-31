@@ -14,6 +14,7 @@ export class GridComponent implements OnInit {
   game!: GameModel;
   user!: UserModel;
   nullPawn:NullPawnModel = new NullPawnModel();
+  currentPlayer!:number;
 
   constructor(private userService: UserService,
               private gameService: GameService) {
@@ -22,6 +23,7 @@ export class GridComponent implements OnInit {
   ngOnInit(): void {
     this.game = this.gameService.game;
     this.user = this.userService.user;
+    this.gameService.game.getCurrentPlayer().subscribe((currentPlayer:number) => this.currentPlayer = currentPlayer)
   }
 
   counter(i: number) {
@@ -40,12 +42,13 @@ export class GridComponent implements OnInit {
 
   sendPawn() {
     //Si c'est notre tours
+    console.log(this.currentPlayer);
     if (this.gameService.game.player0 === this.userService.user.id) {
-      if (this.gameService.game.currentPlayer === 0) {
+      if (this.currentPlayer === 0) {
         this.gameService.sendPawn();
       }
     } else {
-      if (this.gameService.game.currentPlayer === 1) {
+      if (this.currentPlayer === 1) {
         this.gameService.sendPawn();
       }
     }

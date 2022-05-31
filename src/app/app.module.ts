@@ -53,7 +53,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     ToastrModule.forRoot({
       positionClass: 'toast-top-right',
-      timeOut: 2000,
+      timeOut: 3500,
       tapToDismiss: true
     }),
     MatToolbarModule,

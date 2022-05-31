@@ -1,4 +1,5 @@
-<p>game works!</p>
-<button (click)="onDeleteAllGames()">delete</button>
+<button (click)="onLeave()">quitter</button>
 <h1>{{this.game.id}}</h1>
-<app-grid></app-grid>
+<div *ngIf="status === 0">waiting</div>
+<app-grid *ngIf="status === 1 || status === 2"></app-grid>
+<div *ngIf="status === 2">{{getWinner()}}</div>

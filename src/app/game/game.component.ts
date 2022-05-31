@@ -4,6 +4,7 @@ import {GameService} from "../services/game.service";
 import {Router} from "@angular/router";
 import {UserService} from "../services/user.service";
 import {GameModel} from "../models/Game.model";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-game',
@@ -12,10 +13,13 @@ import {GameModel} from "../models/Game.model";
 })
 export class GameComponent implements OnInit {
   game!: GameModel
+  status!: number;
+  winner!: number;
 
   constructor(private gameService: GameService,
               private userService: UserService,
-              private router: Router) {
+              private router: Router,
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -26,10 +30,22 @@ export class GameComponent implements OnInit {
       this.gameService.loadData(this.userService.user);
     }
     this.game = this.gameService.game;
+    this.gameService.getStatus().subscribe((status: number) => this.status = status)
+    this.gameService.getWinner().subscribe((winner: number) => this.winner = winner)
   }
 
-  onDeleteAllGames() {
-    axios.delete('http://localhost:3000/api/game/deleteAllGames');
-    this.router.navigate(['']);
+  onLeave() {
+    this.gameService.leave()
+      .then(() => this.router.navigate(['']))
+  }
+
+  getWinner() {
+    if (this.winner != -1)
+      this.winner;
+    else if (this.winner === -1 && this.status === 2) {
+      this.toastr.info('Votre adversaire a quitté la partie');
+      this.gameService.leave();
+      this.router.navigate([''])
+    }
   }
 }

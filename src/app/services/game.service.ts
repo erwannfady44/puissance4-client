@@ -14,9 +14,13 @@ import {PawnModel} from "../models/Pawn.model";
 export class GameService {
   private _game: GameModel = new GameModel();
   private selectedColumn!: BehaviorSubject<number>;
+  private status!: BehaviorSubject<number>;
+  private winner!: BehaviorSubject<number>;
 
   constructor(private ws: WebSocketService) {
     this.selectedColumn = new BehaviorSubject<number>(-1)
+    this.status = new BehaviorSubject<number>(0)
+    this.winner = new BehaviorSubject<number>(-1)
   }
 
   isInGame(pseudo: string): Promise<boolean> {
@@ -41,7 +45,7 @@ export class GameService {
           this._game = new GameModel();
           this._game.player0 = res.data.player0;
           this._game.player0Connected = res.data.player0Connected;
-          this._game.currentPlayer = res.data.currentPlayer;
+          this._game.setCurrentPlayer(res.data.currentPlayer);
           this._game.id = res.data._id;
           sessionStorage.setItem('game', JSON.stringify(this.game))
           this.connect(user.id, user.token);
@@ -60,11 +64,12 @@ export class GameService {
         },
       })
         .then((res: any) => {
+          this._game = new GameModel();
           this._game.player0 = res.data.player0;
           this._game.player1 = res.data.player1;
           this._game.player0Connected = res.data.player0Connected;
           this._game.player1Connected = true;
-          this._game.currentPlayer = res.data.currentPlayer;
+          this._game.setCurrentPlayer(res.data.currentPlayer);
           this._game.id = idGame;
           sessionStorage.setItem('game', JSON.stringify(this.game))
           this.connect(user.id, user.token);
@@ -91,21 +96,20 @@ export class GameService {
         console.log("complete")
       }
     })
-
   }
 
   private dataReceived(data: any) {
-    if (data.state) {
-
+    if (data.status) {
+      this.setStatus(data.status);
+      if (data.status == 2)
+        this.setWinner(data.winner ? data.winner : -1);
     } else if (data.newPawn) {
-      console.log(data.newPawn);
       const newPawn = new PawnModel();
       newPawn.column = data.newPawn.column;
       newPawn.row = data.newPawn.row;
       newPawn.color = data.newPawn.color;
       this.game.grid[newPawn.row][newPawn.column] = newPawn;
-      this.game.currentPlayer = (this.game.currentPlayer + 1) % 2;
-      console.log(this.game.grid);
+      this.game.nextPlayer();
     }
   }
 
@@ -122,5 +126,27 @@ export class GameService {
 
   getSelectedColumn(): Observable<number> {
     return this.selectedColumn.asObservable();
+  }
+
+  setStatus(status: number) {
+    this.status.next(status);
+  }
+
+  getStatus() {
+    return this.status.asObservable();
+  }
+
+  setWinner(winner: number) {
+    this.winner.next(winner);
+  }
+
+
+  getWinner() {
+    return this.winner.asObservable();
+  }
+
+  leave(): Promise<any> {
+    this.setStatus(0);
+    return this.ws.close();
   }
 }

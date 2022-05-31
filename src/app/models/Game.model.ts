@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {NullPawnModel, PawnModel} from "./Pawn.model";
+import {BehaviorSubject, Observable} from "rxjs";
 
 @Injectable({providedIn: 'root'})
 export class GameModel {
@@ -8,10 +9,11 @@ export class GameModel {
   private _player0Connected: boolean = false;
   private _player1!: string;
   private _player1Connected: boolean = false;
-  private _currentPlayer!: number;
+  private _currentPlayer!: BehaviorSubject<number>;
   private _grid: Array<Array<PawnModel>> = new Array<Array<PawnModel>>()
 
   constructor() {
+    this._currentPlayer = new BehaviorSubject<number>(0);
     for (let i = 0; i < 6; i++) {
       this._grid.push([]);
       for (let j = 0; j < 7; j++) {
@@ -64,12 +66,16 @@ export class GameModel {
     this._player1Connected = value;
   }
 
-  get currentPlayer(): number {
-    return this._currentPlayer;
+  getCurrentPlayer(): Observable<number> {
+    return this._currentPlayer.asObservable();
   }
 
-  set currentPlayer(value: number) {
-    this._currentPlayer = value;
+  setCurrentPlayer(value: number) {
+    this._currentPlayer.next(value);
+  }
+
+  nextPlayer() {
+    this._currentPlayer.next((this._currentPlayer.value + 1) % 2);
   }
 
   get grid(): Array<Array<PawnModel>> {
