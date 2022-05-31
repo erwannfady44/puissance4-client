@@ -11,7 +11,7 @@ export class PawnComponent implements OnInit {
   @Input() pawn!: PawnModel;
   @Input() header!: boolean;
   @Input() color!: string;
-  @Input() column!:number;
+  @Input() column!: number;
   selectedColumn!: number;
 
 
@@ -31,7 +31,10 @@ export class PawnComponent implements OnInit {
     else {
       if (this.pawn instanceof NullPawnModel)
         return "white";
-      else
+      else if (this.pawn.win) {
+        console.log("ok")
+        return "win";
+      } else
         return this.pawn.color;
     }
   }

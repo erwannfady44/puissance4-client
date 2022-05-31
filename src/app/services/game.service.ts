@@ -99,17 +99,24 @@ export class GameService {
   }
 
   private dataReceived(data: any) {
-    if (data.status) {
-      this.setStatus(data.status);
-      if (data.status == 2)
-        this.setWinner(data.winner ? data.winner : -1);
-    } else if (data.newPawn) {
+    if ('newPawn' in data) {
       const newPawn = new PawnModel();
       newPawn.column = data.newPawn.column;
       newPawn.row = data.newPawn.row;
       newPawn.color = data.newPawn.color;
-      this.game.grid[newPawn.row][newPawn.column] = newPawn;
+      this.game.grid[5 - newPawn.row][newPawn.column] = newPawn;
       this.game.nextPlayer();
+    }
+    if ('status' in data) {
+      if (data.status == 2) {
+        if ('winner' in data) {
+          this.setWinner(data.winner);
+          data.winnerPawns.forEach((pawn: any) => {
+            this.game.grid[5-pawn.row][pawn.column].win = true;
+          })
+        }
+      }
+      this.setStatus(data.status);
     }
   }
 

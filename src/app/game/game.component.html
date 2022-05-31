@@ -2,4 +2,4 @@
 <h1>{{this.game.id}}</h1>
 <div *ngIf="status === 0">waiting</div>
 <app-grid *ngIf="status === 1 || status === 2"></app-grid>
-<div *ngIf="status === 2">{{getWinner()}}</div>
+<div *ngIf="status === 2">{{winner}}</div>

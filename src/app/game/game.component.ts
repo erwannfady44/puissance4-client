@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import axios from "axios";
 import {GameService} from "../services/game.service";
 import {Router} from "@angular/router";
@@ -30,8 +30,11 @@ export class GameComponent implements OnInit {
       this.gameService.loadData(this.userService.user);
     }
     this.game = this.gameService.game;
-    this.gameService.getStatus().subscribe((status: number) => this.status = status)
-    this.gameService.getWinner().subscribe((winner: number) => this.winner = winner)
+    this.gameService.getStatus().subscribe((status: number) => {
+      this.status = status;
+      this.checkLeave();
+    })
+    this.gameService.getWinner().subscribe((winner: number) => this.winner = winner);
   }
 
   onLeave() {
@@ -39,10 +42,8 @@ export class GameComponent implements OnInit {
       .then(() => this.router.navigate(['']))
   }
 
-  getWinner() {
-    if (this.winner != -1)
-      this.winner;
-    else if (this.winner === -1 && this.status === 2) {
+  checkLeave() {
+    if (this.winner === -1 && this.status === 2) {
       this.toastr.info('Votre adversaire a quitté la partie');
       this.gameService.leave();
       this.router.navigate([''])

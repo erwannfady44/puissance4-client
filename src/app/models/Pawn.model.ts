@@ -6,6 +6,7 @@ export class PawnModel  {
   private _column!: number;
   private _row!: number;
   private _player!:number;
+  private _win:boolean = false;
 
   constructor() {
   }
@@ -41,6 +42,15 @@ export class PawnModel  {
 
   set player(value: number) {
     this._player = value;
+  }
+
+
+  get win(): boolean {
+    return this._win;
+  }
+
+  set win(value: boolean) {
+    this._win = value;
   }
 }
 

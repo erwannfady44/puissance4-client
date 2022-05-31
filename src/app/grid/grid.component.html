@@ -9,8 +9,8 @@
     </tr>
   </table>
   <table id="grid">
-    <tr *ngFor='let in of counter(6) ;let i = index'>
-      <td *ngFor='let in of counter(7) ;let j = index' (mouseenter)="onMouseEvent(j)" (mouseleave)="onMouseEvent(-1)"
+    <tr *ngFor='let in of counter(6); let i=index;'>
+      <td *ngFor='let in of counter(7); let j = index' (mouseenter)="onMouseEvent(j)" (mouseleave)="onMouseEvent(-1)"
           (click)="sendPawn()">
         <app-pawn [pawn]="this.game.grid && this.game.grid[i][j] ? this.game.grid[i][j] : this.nullPawn"></app-pawn>
       </td>
