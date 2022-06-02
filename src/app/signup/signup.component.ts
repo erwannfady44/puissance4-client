@@ -32,8 +32,8 @@ export class SignupComponent implements OnInit {
       await this.auth.signUp(this.form.value.pseudo, this.form.value.mdp);
       this.toastr.success('Bienvenue ' + this.form.value.pseudo + ' !', 'Inscription réussie');
       this.router.navigate([''])
-    } catch (e:any) {
-      this.toastr.error(e.message, 'Erreur');
+    } catch (error:any) {
+      this.toastr.error(error, 'Erreur');
     }
   }
 }

@@ -26,6 +26,7 @@ export class WebSocketService {
   }
 
   async close() {
+    console.log("close");
     this.ws.close();
   }
 }

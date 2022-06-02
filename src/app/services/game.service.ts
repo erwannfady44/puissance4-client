@@ -50,7 +50,10 @@ export class GameService {
           sessionStorage.setItem('game', JSON.stringify(this.game))
           this.connect(user.id, user.token);
           resolve()
-        }).catch(err => reject(err))
+        }).catch(err => {
+        console.log(err)
+        reject(err)
+      })
     });
   }
 

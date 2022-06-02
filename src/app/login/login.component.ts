@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
   async onSubmit() {
     try {
       await this.auth.login(this.form.value.pseudo, this.form.value.mdp);
-      this.toastr.success('Bienvenue ' + this.form.value.pseudo + ' !', 'Inscription réussie');
+      this.toastr.success('Bienvenue ' + this.form.value.pseudo + ' !', 'Connexion réussie');
       this.router.navigate([''])
     } catch (e:any) {
       this.toastr.error(e.message, 'Erreur');

@@ -49,7 +49,6 @@ export class GridComponent implements OnInit {
   }
 
   sendPawn() {
-    console.log(this.currentPlayer)
     //Si c'est notre tours
     if (this.gameService.game.player0 === this.userService.user.id) {
       if (this.currentPlayer === 0) {

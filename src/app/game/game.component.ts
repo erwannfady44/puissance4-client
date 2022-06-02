@@ -43,7 +43,7 @@ export class GameComponent implements OnInit {
   }
 
   checkLeave() {
-    if (this.winner === -1 && this.status === 2) {
+    if (this.status === 3) {
       this.toastr.info('Votre adversaire a quitté la partie');
       this.gameService.leave();
       this.router.navigate([''])
