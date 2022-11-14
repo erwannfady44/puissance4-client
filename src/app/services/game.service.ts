@@ -112,10 +112,11 @@ export class GameService {
     }
     if ('status' in data) {
       if (data.status == 2) {
+        console.log(data.status)
         if ('winner' in data) {
           this.setWinner(data.winner);
           data.winnerPawns.forEach((pawn: any) => {
-            this.game.grid[5-pawn.row][pawn.column].win = true;
+            this.game.grid[5 - pawn.row][pawn.column].win = true;
           })
         }
       }
@@ -158,5 +159,9 @@ export class GameService {
   leave(): Promise<any> {
     this.setStatus(0);
     return this.ws.close();
+  }
+
+  playAgain(): void{
+    this.ws.send({playAgain: true})
   }
 }

@@ -22,7 +22,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {GameService} from "./services/game.service";
 import {UserService} from "./services/user.service";
 import { UserComponent } from './user/user.component';
-import { GameComponent } from './game/game.component';
+import {EndDialog, GameComponent} from './game/game.component';
 import {MatDialogModule} from "@angular/material/dialog";
 
 const appRoutes: Routes = [
@@ -45,7 +45,8 @@ const appRoutes: Routes = [
     HeaderComponent,
     UserComponent,
     GameComponent,
-    JoinDialog
+    JoinDialog,
+    EndDialog
   ],
   imports: [
     BrowserModule,

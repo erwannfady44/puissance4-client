@@ -56,7 +56,7 @@ export class HomeComponent implements OnInit {
 
 @Component({
   selector: 'app-home',
-  templateUrl: './login.dialog.html',
+  templateUrl: './join.dialog.html',
   styleUrls: ['./home.component.scss']
 })
 export class JoinDialog implements OnInit {
